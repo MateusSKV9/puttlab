@@ -1,6 +1,6 @@
 # PuttLab ⛳
 
-Jogo de Mini Golf 2D desenvolvido com **HTML, CSS, JavaScript e Canvas 2D**, como projeto acadêmico de Computação Gráfica.
+Jogo de **Mini Golf 2D** desenvolvido com **HTML, CSS, JavaScript e Canvas 2D**, como projeto acadêmico da disciplina de Computação Gráfica.
 
 ## Estrutura de Pastas
 
@@ -10,6 +10,9 @@ puttlab/
 ├── app/
 │   ├── index.html
 │   ├── styles.css
+│   │
+│   ├── assets/
+│   │   └── favicon.png
 │   │
 │   └── js/
 │       ├── main.js                 # Inicialização da aplicação
@@ -52,10 +55,12 @@ puttlab/
 
 1. Clone o repositório.
 2. Abra a pasta do projeto no VS Code.
-3. Abra `app/index.html` utilizando o **Live Server**.
+3. Execute o arquivo `app/index.html` utilizando a extensão **Live Server**.
 
 ## Organização do Código
 
-O projeto será dividido em módulos JavaScript, utilizando `import` e `export` para separar as responsabilidades e facilitar a manutenção e o desenvolvimento em equipe.
+O projeto será dividido em módulos JavaScript, utilizando `import` e `export` para separar responsabilidades, facilitar a manutenção e permitir o desenvolvimento em equipe.
 
-**Observação:** A estrutura poderá ser ajustada conforme novas funcionalidades forem implementadas.
+## Observação
+
+A estrutura de pastas poderá ser ajustada conforme o desenvolvimento e a implementação de novas funcionalidades.
