@@ -40,7 +40,6 @@ puttlab/
 │
 ├── README.md
 ├── LICENSE
-├── .gitignore
 └── .gitattributes
 ```
 
