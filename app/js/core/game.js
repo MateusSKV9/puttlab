@@ -95,18 +95,27 @@ export class Game {
 		updateBall(this.ball, deltaTime);
 
 		// Verifica colisões com as paredes
-		checkWallCollision(this.ball, canvas.width, canvas.height);
+		let collided = checkWallCollision(this.ball, canvas.width, canvas.height);
 
 		// Verifica colisões com os obstáculos
 		for (const obstacle of this.obstacles) {
-			checkObstacleCollision(this.ball, obstacle);
+			if (checkObstacleCollision(this.ball, obstacle)) {
+				collided = true;
+			}
+		}
+
+		// Reproduz o som de colisão
+		if (collided) {
+			playSound("collision");
 		}
 
 		// Guarda o estado antes das verificações
 		const previousStatus = this.gameState.status;
 
+		// Verifica vitória
 		const won = checkVictory(this.gameState, this.ball, this.hole);
 
+		// Verifica derrota caso não tenha vencido
 		if (!won) {
 			checkDefeat(this.gameState, this.ball);
 		}
