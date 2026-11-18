@@ -3,6 +3,8 @@ export const LEVELS = [
 	{
 		id: 1,
 		name: "Primeiras Tacadas",
+		par: 2,
+		maxStrokes: 5,
 		width: 800,
 		height: 500,
 
@@ -19,6 +21,8 @@ export const LEVELS = [
 	{
 		id: 2,
 		name: "Desafio das Barreiras",
+		par: 3,
+		maxStrokes: 6,
 		width: 800,
 		height: 500,
 
@@ -36,6 +40,8 @@ export const LEVELS = [
 	{
 		id: 3,
 		name: "Caminho Alternado",
+		par: 3,
+		maxStrokes: 6,
 		width: 800,
 		height: 500,
 
@@ -53,6 +59,8 @@ export const LEVELS = [
 	{
 		id: 4,
 		name: "Corredores Cruzados",
+		par: 3,
+		maxStrokes: 6,
 		width: 800,
 		height: 500,
 
@@ -70,6 +78,8 @@ export const LEVELS = [
 	{
 		id: 5,
 		name: "Zigue-Zague",
+		par: 4,
+		maxStrokes: 7,
 		width: 800,
 		height: 500,
 
@@ -87,6 +97,8 @@ export const LEVELS = [
 	{
 		id: 6,
 		name: "Labirinto Central",
+		par: 4,
+		maxStrokes: 7,
 		width: 800,
 		height: 500,
 
@@ -105,6 +117,8 @@ export const LEVELS = [
 	{
 		id: 7,
 		name: "Passagem Estreita",
+		par: 4,
+		maxStrokes: 8,
 		width: 800,
 		height: 500,
 
@@ -123,6 +137,8 @@ export const LEVELS = [
 	{
 		id: 8,
 		name: "Barreiras Duplas",
+		par: 4,
+		maxStrokes: 8,
 		width: 800,
 		height: 500,
 
@@ -142,6 +158,8 @@ export const LEVELS = [
 	{
 		id: 9,
 		name: "Desafio das Curvas",
+		par: 4,
+		maxStrokes: 8,
 		width: 800,
 		height: 500,
 
@@ -160,6 +178,8 @@ export const LEVELS = [
 	{
 		id: 10,
 		name: "O Grande Desafio",
+		par: 5,
+		maxStrokes: 9,
 		width: 800,
 		height: 500,
 

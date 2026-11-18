@@ -6,7 +6,7 @@ import { updateBall } from "../systems/physics.js";
 
 import { checkWallCollision, checkObstacleCollision } from "../systems/collision.js";
 
-import { createGameState, checkVictory, resetGameState } from "../systems/rules.js";
+import { createGameState, startGame, checkVictory, checkDefeat, resetGameState } from "../systems/rules.js";
 
 import { Input } from "./input.js";
 
@@ -29,15 +29,18 @@ export class Game {
 		this.input = null;
 
 		this.handleKeyDown = this.handleKeyDown.bind(this);
+		this.handleCanvasClick = this.handleCanvasClick.bind(this);
+
 		window.addEventListener("keydown", this.handleKeyDown);
+		canvas.addEventListener("pointerdown", this.handleCanvasClick);
 
 		this.lastTime = 0;
 		this.animationFrameId = null;
 
-		this.loadLevel(LEVELS[this.currentLevelIndex].id);
+		this.loadLevel(LEVELS[this.currentLevelIndex].id, true, true);
 	}
 
-	loadLevel(levelId) {
+	loadLevel(levelId, resetTotal = false, isInitialStart = false) {
 		const level = getLevelById(levelId);
 
 		if (!level) {
@@ -54,13 +57,14 @@ export class Game {
 		this.ball = new Ball(level.ball.x, level.ball.y, level.ball.radius);
 
 		this.hole = new Hole(level.hole.x, level.hole.y, level.hole.radius);
-
-		this.obstacles = level.obstacles.map(
-			(obstacle) => new Obstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height)
-		);
+		this.obstacles = level.obstacles.map((obstacle) => new Obstacle(obstacle.x, obstacle.y, obstacle.width, obstacle.height));
 
 		// Reinicia o estado da partida
-		resetGameState(this.gameState);
+		resetGameState(this.gameState, level, resetTotal);
+
+		if (isInitialStart) {
+			this.gameState.status = "start";
+		}
 
 		// Inicializa os controles
 		if (this.input) {
@@ -86,8 +90,11 @@ export class Game {
 			checkObstacleCollision(this.ball, obstacle);
 		}
 
-		// Verifica se o jogador venceu
-		checkVictory(this.gameState, this.ball, this.hole);
+		// Verifica primeiro se venceu; se não venceu e a bola parou no limite, verifica derrota
+		const won = checkVictory(this.gameState, this.ball, this.hole);
+		if (!won) {
+			checkDefeat(this.gameState, this.ball);
+		}
 	}
 
 	draw() {
@@ -130,12 +137,22 @@ export class Game {
 	}
 
 	restart() {
-    if (this.gameState.status === "completed") {
-      this.currentLevelIndex = 0;
-    }
-  
-    this.loadLevel(LEVELS[this.currentLevelIndex].id);
-  }
+		if (this.gameState.status === "start") {
+			return;
+		}
+
+		if (this.gameState.status === "completed") {
+			this.currentLevelIndex = 0;
+			this.loadLevel(LEVELS[this.currentLevelIndex].id, true, false);
+			return;
+		}
+
+		if (this.gameState.status === "won") {
+			this.gameState.totalStrokes = Math.max(0, this.gameState.totalStrokes - this.gameState.strokes);
+		}
+
+		this.loadLevel(LEVELS[this.currentLevelIndex].id, false, false);
+	}
 
 	nextLevel() {
 		if (this.currentLevelIndex + 1 >= LEVELS.length) {
@@ -147,8 +164,13 @@ export class Game {
 		this.currentLevelIndex++;
 
 		const nextLevel = LEVELS[this.currentLevelIndex];
+		this.loadLevel(nextLevel.id, false, false);
+	}
 
-		this.loadLevel(nextLevel.id);
+	handleCanvasClick() {
+		if (this.gameState.status === "start") {
+			startGame(this.gameState);
+		}
 	}
 
 	handleKeyDown(event) {
@@ -157,12 +179,16 @@ export class Game {
 			this.restart();
 		}
 
-		// Avança para a próxima fase ao pressionar Espaço
+		// Inicia na tela inicial, avança ao vencer ou reinicia ao perder com Espaço
 		if (event.code === "Space") {
 			event.preventDefault();
 
-			if (this.gameState.status === "won") {
+			if (this.gameState.status === "start") {
+				startGame(this.gameState);
+			} else if (this.gameState.status === "won") {
 				this.nextLevel();
+			} else if (this.gameState.status === "lost") {
+				this.restart();
 			}
 		}
 	}
