@@ -6,20 +6,20 @@ export function drawHole(ctx, hole) {
 	// Aro metálico externo (alumínio escovado)
 	ctx.beginPath();
 	ctx.arc(hole.x, hole.y, hole.radius + 2, 0, Math.PI * 2);
-	ctx.fillStyle = '#b0bec5';
+	ctx.fillStyle = "#b0bec5";
 	ctx.fill();
 
 	// Interior profundo do buraco
 	ctx.beginPath();
 	ctx.arc(hole.x, hole.y, hole.radius, 0, Math.PI * 2);
-	ctx.fillStyle = '#0d1310';
+	ctx.fillStyle = "#0d1310";
 	ctx.fill();
 
 	// Haste da bandeira (dourado fosco)
 	ctx.beginPath();
 	ctx.moveTo(hole.x, hole.y);
 	ctx.lineTo(hole.x, hole.y - 26);
-	ctx.strokeStyle = '#e6d5b8';
+	ctx.strokeStyle = "#e6d5b8";
 	ctx.lineWidth = 2;
 	ctx.stroke();
 
@@ -29,7 +29,7 @@ export function drawHole(ctx, hole) {
 	ctx.lineTo(hole.x + 13, hole.y - 21);
 	ctx.lineTo(hole.x, hole.y - 16);
 	ctx.closePath();
-	ctx.fillStyle = '#a62639';
+	ctx.fillStyle = "#a62639";
 	ctx.fill();
 
 	ctx.restore();
@@ -40,15 +40,15 @@ export function drawObstacles(ctx, obstacles = []) {
 
 	for (const obs of obstacles) {
 		// Sombra suave projetada na grama
-		ctx.fillStyle = 'rgba(8, 22, 14, 0.35)';
+		ctx.fillStyle = "rgba(8, 22, 14, 0.35)";
 		ctx.fillRect(obs.x + 4, obs.y + 4, obs.width, obs.height);
 
 		// Corpo do obstáculo em madeira nogueira
-		ctx.fillStyle = '#4e2e1e';
+		ctx.fillStyle = "#4e2e1e";
 		ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
 
 		// Friso superior claro (luz) e contorno refinado
-		ctx.strokeStyle = '#8c6d46';
+		ctx.strokeStyle = "#8c6d46";
 		ctx.lineWidth = 1.5;
 		ctx.strokeRect(obs.x, obs.y, obs.width, obs.height);
 	}
@@ -74,11 +74,11 @@ export function drawAimLine(ctx, ball, input) {
 	const targetY = ball.y + Math.sin(angle) * clampedDistance;
 
 	// Transição elegante: creme/champagne (fraco) -> dourado (médio) -> terracota (forte)
-	let aimColor = '#f4f1ea';
+	let aimColor = "#f4f1ea";
 	if (powerRatio > 0.7) {
-		aimColor = '#d9534f';
+		aimColor = "#d9534f";
 	} else if (powerRatio > 0.35) {
-		aimColor = '#e6b85c';
+		aimColor = "#e6b85c";
 	}
 
 	ctx.save();
@@ -108,24 +108,24 @@ export function drawBall(ctx, ball) {
 	// Sombra de contato na grama
 	ctx.beginPath();
 	ctx.arc(ball.x + 2, ball.y + 3, ball.radius, 0, Math.PI * 2);
-	ctx.fillStyle = 'rgba(8, 22, 14, 0.4)';
+	ctx.fillStyle = "rgba(8, 22, 14, 0.4)";
 	ctx.fill();
 
 	// Corpo branco pérola da bola
 	ctx.beginPath();
 	ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-	ctx.fillStyle = '#f8f9fa';
+	ctx.fillStyle = "#f8f9fa";
 	ctx.fill();
 
 	// Contorno sutil
-	ctx.strokeStyle = '#cbd5e1';
+	ctx.strokeStyle = "#cbd5e1";
 	ctx.lineWidth = 1;
 	ctx.stroke();
 
 	// Brilho especular
 	ctx.beginPath();
 	ctx.arc(ball.x - ball.radius * 0.3, ball.y - ball.radius * 0.3, ball.radius * 0.25, 0, Math.PI * 2);
-	ctx.fillStyle = '#ffffff';
+	ctx.fillStyle = "#ffffff";
 	ctx.fill();
 
 	ctx.restore();
