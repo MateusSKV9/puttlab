@@ -6,13 +6,13 @@ function drawStartScreen(ctx) {
 
 	ctx.save();
 
-	// Escurece suavemente o campo visível ao fundo
+	// Escurece o campo ao fundo
 	ctx.fillStyle = "rgba(8, 18, 13, 0.82)";
 	ctx.fillRect(0, 0, width, height);
 
-	// Painel central de regras
-	const boxWidth = 520;
-	const boxHeight = 330;
+	// Painel central
+	const boxWidth = 550;
+	const boxHeight = 350;
 	const boxX = (width - boxWidth) / 2;
 	const boxY = (height - boxHeight) / 2;
 
@@ -30,9 +30,9 @@ function drawStartScreen(ctx) {
 	ctx.textBaseline = "middle";
 	ctx.fillStyle = "#e6d5b8";
 	ctx.font = "bold 24px 'Lucida Sans', sans-serif";
-	ctx.fillText("REGRAS DO CAMPO", width / 2, boxY + 42);
+	ctx.fillText("COMO JOGAR", width / 2, boxY + 38);
 
-	// Linha divisória dourada
+	// Linha divisória
 	ctx.strokeStyle = "rgba(197, 168, 128, 0.3)";
 	ctx.lineWidth = 1;
 	ctx.beginPath();
@@ -40,43 +40,77 @@ function drawStartScreen(ctx) {
 	ctx.lineTo(boxX + boxWidth - 36, boxY + 68);
 	ctx.stroke();
 
-	// Regras alinhadas à esquerda dentro do painel
-	const textX = boxX + 42;
-	ctx.textAlign = "left";
+	const textX = boxX + 40;
 
 	// Regra 1: Como jogar
+	ctx.textAlign = "left";
 	ctx.fillStyle = "#f2c879";
 	ctx.font = "bold 14px 'Lucida Sans', sans-serif";
 	ctx.fillText("• COMO TACAR:", textX, boxY + 100);
+
 	ctx.fillStyle = "#f4f1ea";
 	ctx.font = "13px 'Lucida Sans', sans-serif";
-	ctx.fillText("Clique na bola, arraste para trás para mirar e solte.", textX + 14, boxY + 122);
+	ctx.fillText("Clique na bola, arraste para trás para mirar e solte para tacar.", textX + 14, boxY + 123);
 
-	// Regra 2: O que é o Par
+	// Regra 2: Objetivo
 	ctx.fillStyle = "#f2c879";
 	ctx.font = "bold 14px 'Lucida Sans', sans-serif";
-	ctx.fillText("• O QUE É O PAR?", textX, boxY + 158);
+	ctx.fillText("• OBJETIVO:", textX, boxY + 160);
+
 	ctx.fillStyle = "#f4f1ea";
 	ctx.font = "13px 'Lucida Sans', sans-serif";
-	ctx.fillText("É o número ideal de tacadas da fase. Acerte abaixo do Par", textX + 14, boxY + 180);
-	ctx.fillText("para conquistar Birdie, Eagle ou Hole-in-One!", textX + 14, boxY + 198);
+	ctx.fillText("Leve a bola até o buraco utilizando o menor número", textX + 14, boxY + 183);
+	ctx.fillText("possível de tacadas.", textX + 14, boxY + 201);
 
-	// Regra 3: Limite de tacadas
-	ctx.fillStyle = "#f28b82";
+	// Regra 3: Par e limite de tacadas
+	ctx.fillStyle = "#f2c879";
 	ctx.font = "bold 14px 'Lucida Sans', sans-serif";
-	ctx.fillText("• LIMITE DE TACADAS:", textX, boxY + 234);
+	ctx.fillText("• PAR E LIMITE DE TACADAS:", textX, boxY + 238);
+
 	ctx.fillStyle = "#f4f1ea";
 	ctx.font = "13px 'Lucida Sans', sans-serif";
-	ctx.fillText("Cada fase possui um máximo de tacadas. Se estourar sem", textX + 14, boxY + 256);
-	ctx.fillText("acertar o buraco, você precisará reiniciar a fase.", textX + 14, boxY + 274);
+	ctx.fillText("O Par é a quantidade de tacadas esperada para concluir a fase.", textX + 14, boxY + 261);
+	ctx.fillText("Você pode ultrapassar o Par, mas existe um limite máximo.", textX + 14, boxY + 279);
+	ctx.fillText("Se atingir esse limite sem acertar o buraco, terá de reiniciar.", textX + 14, boxY + 297);
 
-	// Chamada para começar
+	// Instrução para começar
 	ctx.textAlign = "center";
 	ctx.fillStyle = "#e6d5b8";
 	ctx.font = "bold 14px 'Lucida Sans', sans-serif";
-	ctx.fillText("Clique na tela ou pressione ESPAÇO para começar", width / 2, boxY + 308);
+	ctx.fillText("Clique na tela ou pressione ESPAÇO para começar", width / 2, boxY + 328);
 
 	ctx.restore();
+}
+
+// Retorna uma explicação para o resultado da fase
+function getScoreDescription(strokes, par) {
+	if (strokes === 1) {
+		return "Você acertou o buraco em uma única tacada!";
+	}
+
+	const difference = strokes - par;
+
+	if (difference <= -2) {
+		return "Você concluiu pelo menos duas tacadas abaixo do Par!";
+	}
+
+	if (difference === -1) {
+		return "Você concluiu com uma tacada abaixo do Par!";
+	}
+
+	if (difference === 0) {
+		return "Você concluiu exatamente dentro da meta de tacadas!";
+	}
+
+	if (difference === 1) {
+		return "Você concluiu com uma tacada acima do Par.";
+	}
+
+	if (difference === 2) {
+		return "Você concluiu com duas tacadas acima do Par.";
+	}
+
+	return `Você concluiu com ${difference} tacadas acima do Par.`;
 }
 
 function drawDefeatScreen(ctx, gameState) {
@@ -90,8 +124,8 @@ function drawDefeatScreen(ctx, gameState) {
 	ctx.fillRect(0, 0, width, height);
 
 	// Painel de derrota
-	const boxWidth = 390;
-	const boxHeight = 175;
+	const boxWidth = 430;
+	const boxHeight = 190;
 	const boxX = (width - boxWidth) / 2;
 	const boxY = (height - boxHeight) / 2;
 
@@ -109,15 +143,15 @@ function drawDefeatScreen(ctx, gameState) {
 
 	ctx.fillStyle = "#f28b82";
 	ctx.font = "bold 22px 'Lucida Sans', sans-serif";
-	ctx.fillText("LIMITE DE TACADAS", width / 2, boxY + 46);
+	ctx.fillText("LIMITE DE TACADAS", width / 2, boxY + 45);
 
 	ctx.fillStyle = "#f4f1ea";
-	ctx.font = "15px 'Lucida Sans', sans-serif";
-	ctx.fillText(`Você usou todas as ${gameState.maxStrokes} tacadas permitidas.`, width / 2, boxY + 90);
+	ctx.font = "14px 'Lucida Sans', sans-serif";
+	ctx.fillText(`Você atingiu o limite de ${gameState.maxStrokes} tacadas.`, width / 2, boxY + 88);
 
 	ctx.fillStyle = "#c9a8a8";
-	ctx.font = "12px 'Lucida Sans', sans-serif";
-	ctx.fillText("Pressione R ou Espaço para tentar novamente", width / 2, boxY + 135);
+	ctx.font = "13px 'Lucida Sans', sans-serif";
+	ctx.fillText("Pressione R ou ESPAÇO para reiniciar a fase.", width / 2, boxY + 137);
 
 	ctx.restore();
 }
@@ -135,7 +169,6 @@ function drawCompletionScreen(ctx, gameState) {
 	// Painel principal
 	const panelWidth = 460;
 	const panelHeight = 270;
-
 	const panelX = (width - panelWidth) / 2;
 	const panelY = (height - panelHeight) / 2;
 
@@ -148,35 +181,32 @@ function drawCompletionScreen(ctx, gameState) {
 	ctx.fill();
 	ctx.stroke();
 
-	// Título
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
 
-	ctx.font = "bold 36px Arial";
+	// Título
+	ctx.font = "bold 36px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#f2c879";
-
 	ctx.fillText("PARABÉNS!", width / 2, panelY + 58);
 
 	// Mensagem
-	ctx.font = "bold 20px Arial";
+	ctx.font = "bold 20px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#ffffff";
 	ctx.fillText("Você concluiu todas as fases!", width / 2, panelY + 112);
 
-	// Placar total acumulado
-	ctx.font = "bold 17px Arial";
+	// Total de tacadas
+	ctx.font = "bold 17px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#e6d5b8";
 	ctx.fillText(`Total de tacadas no circuito: ${gameState?.totalStrokes ?? 0}`, width / 2, panelY + 152);
 
-	// Informação adicional
-	ctx.font = "16px Arial";
+	// Mensagem adicional
+	ctx.font = "15px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#c5d8ca";
-
 	ctx.fillText("Você dominou o laboratório de tacadas.", width / 2, panelY + 185);
 
-	// Instrução para reiniciar
-	ctx.font = "bold 16px Arial";
+	// Reiniciar
+	ctx.font = "bold 16px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#f2c879";
-
 	ctx.fillText("Pressione R para jogar novamente", width / 2, panelY + 230);
 
 	ctx.restore();
@@ -192,7 +222,7 @@ export function drawHUD(ctx, gameState, level) {
 	ctx.fillStyle = "rgba(10, 22, 16, 0.55)";
 	ctx.fillRect(0, 0, width, 40);
 
-	// Linha divisória dourada sutil
+	// Linha divisória
 	ctx.strokeStyle = "rgba(230, 213, 184, 0.25)";
 	ctx.lineWidth = 1;
 	ctx.beginPath();
@@ -200,43 +230,58 @@ export function drawHUD(ctx, gameState, level) {
 	ctx.lineTo(width, 40);
 	ctx.stroke();
 
-	// Fase (esquerda)
+	// Identificação da fase
 	ctx.fillStyle = "#e6d5b8";
 	ctx.font = "600 14px 'Lucida Sans', sans-serif";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "middle";
+
 	const levelText = level ? `FASE ${level.id}  •  ${level.name.toUpperCase()}` : "FASE 1";
+
 	ctx.fillText(levelText, 18, 20);
 
-	// Tacadas e Par (direita)
+	// Tacadas, limite e Par
 	const strokes = gameState?.strokes ?? 0;
 	const maxStrokes = gameState?.maxStrokes ?? level?.maxStrokes ?? 5;
 	const par = gameState?.par ?? level?.par ?? 2;
 	const remaining = maxStrokes - strokes;
 
 	ctx.textAlign = "right";
+
 	if (remaining <= 1 && gameState?.status === "playing") {
-		ctx.fillStyle = "#f28b82"; // Alerta visual na última tacada
+		ctx.fillStyle = "#f28b82";
 	} else {
 		ctx.fillStyle = "#f4f1ea";
 	}
-	ctx.fillText(`TACADAS: ${strokes}/${maxStrokes}  •  PAR ${par}`, width - 18, 20);
 
-	// Instrução discreta antes da primeira tacada
-	if (gameState?.status === "playing" && strokes === 0) {
-		ctx.fillStyle = "rgba(244, 241, 234, 0.75)";
-		ctx.font = "13px 'Lucida Sans', sans-serif";
+	ctx.fillText(`TACADAS: ${strokes}/${maxStrokes}  •  PAR (META): ${par}`, width - 18, 20);
+
+	// Instrução inicial e avisos de última tacada
+	if (gameState?.status === "playing") {
 		ctx.textAlign = "center";
-		ctx.fillText("Clique na bola, arraste para trás para mirar e solte para tacar", width / 2, height - 18);
+		ctx.font = "13px 'Lucida Sans', sans-serif";
+
+		if (strokes === 0) {
+			ctx.fillStyle = "rgba(244, 241, 234, 0.75)";
+			ctx.fillText("Clique na bola, arraste para trás para mirar e solte para tacar", width / 2, height - 18);
+		} else if (remaining === 1) {
+			ctx.fillStyle = "#f28b82";
+			ctx.font = "bold 13px 'Lucida Sans', sans-serif";
+			ctx.fillText("Resta apenas uma tacada! Acerte o buraco.", width / 2, height - 18);
+		} else if (remaining === 0) {
+			ctx.fillStyle = "#f28b82";
+			ctx.font = "bold 13px 'Lucida Sans', sans-serif";
+			ctx.fillText("Última tacada em andamento! Acerte o buraco.", width / 2, height - 18);
+		}
 	}
 
-	// Cartão de Vitória estilo Country Club
+	// Tela de vitória
 	if (gameState?.status === "won") {
 		ctx.fillStyle = "rgba(8, 18, 13, 0.72)";
 		ctx.fillRect(0, 0, width, height);
 
-		const boxWidth = 370;
-		const boxHeight = 175;
+		const boxWidth = 420;
+		const boxHeight = 195;
 		const boxX = (width - boxWidth) / 2;
 		const boxY = (height - boxHeight) / 2;
 
@@ -249,34 +294,43 @@ export function drawHUD(ctx, gameState, level) {
 		ctx.lineWidth = 2;
 		ctx.stroke();
 
+		// Classificação
 		const scoreTitle = getScoreLabel(strokes, par);
 
-		ctx.fillStyle = "#e6d5b8";
-		ctx.font = "bold 22px 'Lucida Sans', sans-serif";
 		ctx.textAlign = "center";
-		ctx.fillText(scoreTitle.toUpperCase(), width / 2, boxY + 46);
+		ctx.fillStyle = "#e6d5b8";
+		ctx.font = "bold 24px 'Lucida Sans', sans-serif";
+		ctx.fillText(scoreTitle.toUpperCase(), width / 2, boxY + 42);
+
+		// Quantidade de tacadas
+		const label = strokes === 1 ? "1 tacada" : `${strokes} tacadas`;
 
 		ctx.fillStyle = "#f4f1ea";
 		ctx.font = "15px 'Lucida Sans', sans-serif";
-		const label = strokes === 1 ? "1 tacada" : `${strokes} tacadas`;
-		ctx.fillText(`Buraco concluído em ${label} (Par ${par})`, width / 2, boxY + 90);
+		ctx.fillText(`Buraco concluído em ${label} (Par ${par})`, width / 2, boxY + 82);
 
-		ctx.fillStyle = "#9eb3a8";
+		// Explicação do resultado
+		ctx.fillStyle = "#c5d8ca";
 		ctx.font = "12px 'Lucida Sans', sans-serif";
-		ctx.fillText("Pressione R para reiniciar ou Espaço para avançar", width / 2, boxY + 135);
+		ctx.fillText(getScoreDescription(strokes, par), width / 2, boxY + 113);
+
+		// Próximas ações
+		ctx.fillStyle = "#e6d5b8";
+		ctx.font = "bold 12px 'Lucida Sans', sans-serif";
+		ctx.fillText("Pressione R para reiniciar ou ESPAÇO para avançar", width / 2, boxY + 157);
 	}
 
-	// Tela inicial explicando Par e Limite de Tacadas
+	// Tela inicial
 	if (gameState?.status === "start") {
 		drawStartScreen(ctx);
 	}
 
-	// Tela de Derrota (estourou o limite de tacadas)
+	// Tela de derrota
 	if (gameState?.status === "lost") {
 		drawDefeatScreen(ctx, gameState);
 	}
 
-	// Tela de conclusão de todas as fases
+	// Tela de conclusão
 	if (gameState?.status === "completed") {
 		drawCompletionScreen(ctx, gameState);
 	}
