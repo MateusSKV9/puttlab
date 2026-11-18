@@ -1,5 +1,5 @@
-const canvas = document.querySelector('#gameCanvas');
-const ctx = canvas.getContext('2d');
+const canvas = document.querySelector("#gameCanvas");
+const ctx = canvas.getContext("2d");
 
 // Dimensões lógicas padrão do campo
 const CANVAS_WIDTH = 800;

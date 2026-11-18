@@ -1,7 +1,7 @@
-import { ctx, clearCanvas } from './canvas.js';
-import { drawField } from './drawField.js';
-import { drawHole, drawObstacles, drawAimLine, drawBall } from './drawEntities.js';
-import { drawHUD } from './hud.js';
+import { ctx, clearCanvas } from "./canvas.js";
+import { drawField } from "./drawField.js";
+import { drawHole, drawObstacles, drawAimLine, drawBall } from "./drawEntities.js";
+import { drawHUD } from "./hud.js";
 
 export function render({ level, ball, hole, obstacles, input, gameState }) {
 	// 1. Limpa o frame anterior

@@ -1,14 +1,18 @@
-import { Ball } from "../entities/ball.js";
-import { Hole } from "../entities/hole.js";
-import { Obstacle } from "../entities/obstacle.js";
-import { updateBall } from "../systems/physics.js";
-import { checkWallCollision, checkObstacleCollision } from "../systems/collision.js";
-import { createGameState, startGame, checkVictory, checkDefeat, resetGameState } from "../systems/rules.js";
-import { Input } from "./input.js";
+import { Ball, Hole, Obstacle } from "../entities/index.js";
+import {
+	updateBall,
+	checkWallCollision,
+	checkObstacleCollision,
+	createGameState,
+	startGame,
+	checkVictory,
+	checkDefeat,
+	resetGameState,
+	playSound,
+} from "../systems/index.js";
+import { Input } from "./index.js";
 import { LEVELS, getLevelById } from "../levels/levels.js";
-import { render } from "../render/renderer.js";
-import { canvas, initCanvas } from "../render/canvas.js";
-import { playSound } from "../systems/audio.js";
+import { render, canvas, initCanvas } from "../render/index.js";
 
 export class Game {
 	constructor() {
@@ -91,18 +95,27 @@ export class Game {
 		updateBall(this.ball, deltaTime);
 
 		// Verifica colisões com as paredes
-		checkWallCollision(this.ball, canvas.width, canvas.height);
+		let collided = checkWallCollision(this.ball, canvas.width, canvas.height);
 
 		// Verifica colisões com os obstáculos
 		for (const obstacle of this.obstacles) {
-			checkObstacleCollision(this.ball, obstacle);
+			if (checkObstacleCollision(this.ball, obstacle)) {
+				collided = true;
+			}
+		}
+
+		// Reproduz o som de colisão
+		if (collided) {
+			playSound("collision");
 		}
 
 		// Guarda o estado antes das verificações
 		const previousStatus = this.gameState.status;
 
+		// Verifica vitória
 		const won = checkVictory(this.gameState, this.ball, this.hole);
 
+		// Verifica derrota caso não tenha vencido
 		if (!won) {
 			checkDefeat(this.gameState, this.ball);
 		}

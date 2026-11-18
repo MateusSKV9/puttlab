@@ -1,4 +1,4 @@
-import { getScoreLabel } from "../systems/rules.js";
+import { getScoreLabel } from "../systems/index.js";
 
 function drawStartScreen(ctx) {
 	const width = ctx.canvas.width;

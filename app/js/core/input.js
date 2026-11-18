@@ -1,5 +1,4 @@
-import { applyShot } from "../systems/physics.js";
-import { registerShot } from "../systems/rules.js";
+import { applyShot, registerShot } from "../systems/index.js";
 
 const SHOT_POWER = 4;
 const MAX_SHOT_SPEED = 600;

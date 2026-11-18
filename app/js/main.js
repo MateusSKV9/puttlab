@@ -1,4 +1,4 @@
-import { Game } from "./core/game.js";
+import { Game } from "./core/index.js";
 
 const game = new Game();
 
