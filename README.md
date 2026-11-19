@@ -43,5 +43,6 @@ Jogo de **Mini Golf 2D** desenvolvido como projeto acadêmico da disciplina de C
 
 ## Integrantes
 
-- William Souza
 - Mateus Santos
+- William Souza
+
