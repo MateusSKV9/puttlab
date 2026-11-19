@@ -1,9 +1,12 @@
-# PuttLab ⛳
+<h1 align="center">⛳ PuttLab ⛳</h1>
 
-## Integrantes
+<image src="./preview.png" alt="Preview do Jogo" />
 
-- William Souza Almeida
-- Mateus _(sobrenome do colega)_
+<p align="center">
+  <a href="https://mateusskv9.github.io/puttlab/app/">
+    <strong>Jogar PuttLab</strong>
+  </a>
+</p>
 
 ## Descrição
 
@@ -37,3 +40,8 @@ Jogo de **Mini Golf 2D** desenvolvido como projeto acadêmico da disciplina de C
 | **`fillText()`, `font`, `textAlign`, `textBaseline`**    | Renderização de textos, placar de tacadas/Par e mensagens das telas modais.                        | `app/js/render/hud.js` (linhas 29–32, 43–76, 140–152, 184–203, 230–251, 272–297)                                                                                                                |
 | **`getBoundingClientRect()`**                            | Mapeamento das coordenadas de tela do mouse/toque para o espaço lógico do Canvas.                  | `app/js/core/input.js` (linha 32)                                                                                                                                                               |
 | **`requestAnimationFrame()`**                            | Execução contínua do _Game Loop_ sincronizado com a taxa de atualização da tela.                   | `app/js/core/game.js` (linhas 142, 153)                                                                                                                                                         |
+
+## Integrantes
+
+- William Souza
+- Mateus Santos
