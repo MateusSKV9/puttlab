@@ -10,7 +10,7 @@
 
 ## Descrição
 
-Jogo de **Mini Golf 2D** desenvolvido como projeto acadêmico da disciplina de Computação Gráfica utilizando **HTML5, CSS3, JavaScript (ES Modules), Canvas 2D API e Web Audio API**, sem bibliotecas gráficas externas. O jogo possui 10 fases progressivas, simulação física de atrito, detecção e resolução de colisões, sistema de pontuação baseado no Par do golfe, limite máximo de tacadas e efeitos sonoros procedurais.
+Jogo de **Mini Golf 2D** desenvolvido como projeto acadêmico da disciplina de Computação Gráfica utilizando **HTML5, CSS3, JavaScript (ES Modules), Canvas 2D API e HTML5 Audio API**, sem bibliotecas gráficas externas. O jogo possui 10 fases progressivas, simulação física de atrito, detecção e resolução de colisões, sistema de pontuação baseado no Par do golfe, limite máximo de tacadas e efeitos sonoros.
 
 ## Instruções de Uso
 
@@ -45,4 +45,3 @@ Jogo de **Mini Golf 2D** desenvolvido como projeto acadêmico da disciplina de C
 
 - Mateus Santos
 - William Souza
-
