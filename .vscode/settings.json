@@ -1,3 +1,6 @@
 {
-	"cSpell.words": ["puttlab"]
+	"cSpell.words": [
+		"puttlab"
+	],
+	"liveServer.settings.port": 5501
 }
