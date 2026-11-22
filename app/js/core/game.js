@@ -81,6 +81,14 @@ export class Game {
 	}
 
 	update(deltaTime) {
+		// Animação de vitória: atrai a bola suavemente para o centro do buraco e reduz a escala (queda em profundidade)
+		if (this.gameState.status === "won" && this.ball && this.hole) {
+			this.ball.x += (this.hole.x - this.ball.x) * Math.min(1, deltaTime * 8);
+			this.ball.y += (this.hole.y - this.ball.y) * Math.min(1, deltaTime * 8);
+			this.ball.scale = Math.max(0.25, this.ball.scale - deltaTime * 1.8);
+			return;
+		}
+
 		if (this.gameState.status !== "playing") {
 			return;
 		}
@@ -104,9 +112,10 @@ export class Game {
 			}
 		}
 
-		// Reproduz o som de colisão
+		// Reproduz o som de colisão e aplica leve deformação elástica na escala da bola
 		if (collided) {
 			playSound("collision");
+			this.ball.scale = 0.85;
 		}
 
 		// Guarda o estado antes das verificações

@@ -1,5 +1,42 @@
 import { getScoreLabel } from "../systems/index.js";
 
+// Desenha uma estrela vetorial decorativa utilizando transformações 2D (translate, rotate, scale)
+function drawStar(ctx, x, y, spikes = 5, outerRadius = 10, innerRadius = 5, rotation = 0, scale = 1) {
+	ctx.save();
+
+	// 1. TRANSLAÇÃO: Posiciona a estrela no ponto desejado
+	ctx.translate(x, y);
+
+	// 2. ROTAÇÃO: Aplica a rotação angular contínua
+	ctx.rotate(rotation);
+
+	// 3. ESCALA: Aplica a pulsação de tamanho
+	ctx.scale(scale, scale);
+
+	ctx.beginPath();
+	let rot = (Math.PI / 2) * 3;
+	const step = Math.PI / spikes;
+
+	ctx.moveTo(0, -outerRadius);
+	for (let i = 0; i < spikes; i++) {
+		ctx.lineTo(Math.cos(rot) * outerRadius, Math.sin(rot) * outerRadius);
+		rot += step;
+		ctx.lineTo(Math.cos(rot) * innerRadius, Math.sin(rot) * innerRadius);
+		rot += step;
+	}
+	ctx.lineTo(0, -outerRadius);
+	ctx.closePath();
+
+	ctx.fillStyle = "#f2c879";
+	ctx.fill();
+
+	ctx.strokeStyle = "#c5a880";
+	ctx.lineWidth = 1;
+	ctx.stroke();
+
+	ctx.restore();
+}
+
 function drawStartScreen(ctx) {
 	const width = ctx.canvas.width;
 	const height = ctx.canvas.height;
@@ -187,22 +224,29 @@ function drawCompletionScreen(ctx, gameState) {
 	// Título
 	ctx.font = "bold 36px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#f2c879";
-	ctx.fillText("PARABÉNS!", width / 2, panelY + 58);
+	ctx.fillText("PARABÉNS!", width / 2, panelY + 68);
+
+	// Estrelas comemorativas no topo do painel de conclusão (com rotação e pulsação por escala)
+	const animTime = performance.now() * 0.002;
+	const mainStarPulse = 1 + Math.sin(animTime * 2.5) * 0.15;
+	drawStar(ctx, width / 2, panelY + 28, 5, 12, 6, animTime * 0.8, mainStarPulse);
+	drawStar(ctx, width / 2 - 38, panelY + 32, 5, 8, 4, -animTime, 0.9 + Math.sin(animTime * 2) * 0.1);
+	drawStar(ctx, width / 2 + 38, panelY + 32, 5, 8, 4, animTime, 0.9 + Math.cos(animTime * 2) * 0.1);
 
 	// Mensagem
 	ctx.font = "bold 20px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#ffffff";
-	ctx.fillText("Você concluiu todas as fases!", width / 2, panelY + 112);
+	ctx.fillText("Você concluiu todas as fases!", width / 2, panelY + 118);
 
 	// Total de tacadas
 	ctx.font = "bold 17px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#e6d5b8";
-	ctx.fillText(`Total de tacadas no circuito: ${gameState?.totalStrokes ?? 0}`, width / 2, panelY + 152);
+	ctx.fillText(`Total de tacadas no circuito: ${gameState?.totalStrokes ?? 0}`, width / 2, panelY + 156);
 
 	// Mensagem adicional
 	ctx.font = "15px 'Lucida Sans', sans-serif";
 	ctx.fillStyle = "#c5d8ca";
-	ctx.fillText("Você dominou o laboratório de tacadas.", width / 2, panelY + 185);
+	ctx.fillText("Você dominou o laboratório de tacadas.", width / 2, panelY + 188);
 
 	// Reiniciar
 	ctx.font = "bold 16px 'Lucida Sans', sans-serif";
@@ -301,6 +345,13 @@ export function drawHUD(ctx, gameState, level) {
 		ctx.fillStyle = "#e6d5b8";
 		ctx.font = "bold 24px 'Lucida Sans', sans-serif";
 		ctx.fillText(scoreTitle.toUpperCase(), width / 2, boxY + 42);
+
+		// Estrelas comemorativas decorativas nas laterais do título (com rotação e pulsação por escala)
+		const animTime = performance.now() * 0.0025;
+		const starPulse = 1 + Math.sin(animTime * 3) * 0.15;
+		const titleWidth = ctx.measureText(scoreTitle.toUpperCase()).width;
+		drawStar(ctx, width / 2 - titleWidth / 2 - 22, boxY + 42, 5, 8, 4, animTime, starPulse);
+		drawStar(ctx, width / 2 + titleWidth / 2 + 22, boxY + 42, 5, 8, 4, -animTime, starPulse);
 
 		// Quantidade de tacadas
 		const label = strokes === 1 ? "1 tacada" : `${strokes} tacadas`;

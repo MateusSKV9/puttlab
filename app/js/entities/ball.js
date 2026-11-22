@@ -10,6 +10,12 @@ export class Ball {
 		// Velocidade da bola
 		this.vx = 0;
 		this.vy = 0;
+
+		// Ângulo de rotação da bola (em radianos) para renderização com ctx.rotate
+		this.rotation = 0;
+
+		// Fator de escala visual da bola para renderização com ctx.scale (squash e queda no buraco)
+		this.scale = 1;
 	}
 
 	// Verifica se a bola está em movimento

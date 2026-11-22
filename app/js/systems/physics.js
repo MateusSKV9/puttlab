@@ -5,10 +5,18 @@ const STOP_THRESHOLD = 0.01;
 export function applyShot(ball, velocityX, velocityY) {
 	ball.vx = velocityX;
 	ball.vy = velocityY;
+
+	// Efeito elástico visual de impacto (compressão para posterior expansão com ctx.scale)
+	ball.scale = 0.88;
 }
 
 // Atualiza a posição e a velocidade da bola
 export function updateBall(ball, deltaTime) {
+	// Restaura suavemente a escala da bola para o normal após impactos ou tacadas
+	if (ball.scale < 1) {
+		ball.scale = Math.min(1, ball.scale + deltaTime * 3);
+	}
+
 	const speed = Math.hypot(ball.vx, ball.vy);
 
 	// Evita cálculos desnecessários quando a bola está parada
@@ -26,8 +34,14 @@ export function updateBall(ball, deltaTime) {
 	const directionX = ball.vx / speed;
 	const directionY = ball.vy / speed;
 
-	ball.x += directionX * averageSpeed * deltaTime;
-	ball.y += directionY * averageSpeed * deltaTime;
+	const distanceMoved = averageSpeed * deltaTime;
+	ball.x += directionX * distanceMoved;
+	ball.y += directionY * distanceMoved;
+
+	// Atualiza o ângulo de rotação da bola conforme ela rola na grama (theta = d / r)
+	// Sentido condizente com a direção do deslocamento horizontal
+	const rotationDirection = directionX >= 0 ? 1 : -1;
+	ball.rotation += rotationDirection * (distanceMoved / ball.radius);
 
 	// Atualiza as componentes da velocidade
 	const speedRatio = newSpeed / speed;
